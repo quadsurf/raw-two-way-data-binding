@@ -29,8 +29,7 @@ Open each html file in order.  Follow the challenges in comments.
 
 Once you are done with the last one:
 
-- redo the 2-way data binding with `Object.observe`
-- redo the 2-way data binding without using properties on the window object
+- redo the 2-way data binding without using properties on the window object (bind to some other object)
 - package it into more of a framework (a top level function)
 - support more deeply nested binds (like `data-bind="foo.bar"`)
 - write tests for it with Karma + (Jasmine / Mocha Chai)
