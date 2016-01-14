@@ -4,22 +4,35 @@
     <meta charset="utf-8">
     <title>Data Binding Warmup</title>
     <script type="text/javascript">
-      // Challenge #1
-      // on page load
-      // use document.querySelectorAll to find all elements with the data-bind attribute
+      window.onload = function() {
+        // Challenge #1
+        // on page load
+        // use document.querySelectorAll to find all elements with the data-bind attribute
+        var boundElements = document.querySelectorAll('*[data-bind]');
+        // Challenge #2
+        // on page load
+        // print out the value of all of the data-bind attributes
 
-      // Challenge #2
-      // on page load
-      // print out the value of all of the data-bind attributes
+        // Challenge #3
+        // on page load
+        // loop through all of the elements returned from document.querySelectorAll
+        // if it's an input, add an event listener for keyup that sets a property on window
+        // so if the element is data-bind="fooBar" it would set window.fooBar = [the value of the input]
+        // check your correctness by logging the property, such as window.fooBar, in Chrome dev tools
 
-      // Challenge #3
-      // on page load
-      // loop through all of the elements returned from document.querySelectorAll
-      // if it's an input, add an event listener for keyup that sets a property on window
-      // so if the element is data-bind="fooBar" it would set window.fooBar = [the value of the input]
-      // check your correctness by logging the property, such as window.fooBar, in Chrome dev tools
+        // NOTE: there's nothing special about the words "data-bind" - it could be "data-kitten" and would still work
+        for(var i = 0; i < boundElements.length; i++) {
+          var currentElm = boundElements[i];
 
-      // NOTE: there's nothing special about the words "data-bind" - it could be "data-kitten" and would still work
+          if(currentElm.tagName === 'INPUT') {
+            currentElm.addEventListener('keyup', function(event) {
+              var bindingName = event.target.getAttribute('data-bind');
+              window[bindingName] = event.target.value;
+              console.log("updated bound element", bindingName, window[bindingName]);
+            });
+          }
+        }
+      }
     </script>
   </head>
   <body>

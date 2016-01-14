@@ -4,9 +4,30 @@
     <meta charset="utf-8">
     <title>Data Binding Warmup</title>
     <script type="text/javascript">
-      // Challenge #1
-      // start with the code from 03.html
-      // whenever an input is changed, also change any other field bound to the same variable
+      window.onload = function() {
+        // Challenge #1
+        // start with the code from 03.html
+        // whenever an input is changed, also change any other field bound to the same variable
+
+        var boundElements = document.querySelectorAll('input[data-bind]');
+
+        for(var i = 0; i < boundElements.length; i++) {
+          var currentElm = boundElements[i];
+
+          // Listen to inputs only
+          currentElm.addEventListener('keyup', function(event) {
+            var bindingName = event.target.getAttribute('data-bind');
+            window[bindingName] = event.target.value;
+
+            // Broadcast the new values
+            var boundElements = document.querySelectorAll('*:not(input)[data-bind='+bindingName+']');
+            for(var j = 0; j < boundElements.length; j++) {
+              var innerEl = boundElements[j];
+              innerEl.innerHTML = window[bindingName];
+            }
+          });
+        }
+      }
     </script>
   </head>
   <body>

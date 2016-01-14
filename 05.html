@@ -4,10 +4,49 @@
     <meta charset="utf-8">
     <title>Data Binding Warmup</title>
     <script type="text/javascript">
-      // Challenge #1
-      // start with the code from 04.html
-      // using setInterval, make it so that if you change window.pizzaSize in Chrome dev tools
-      // the pizzaSize inputs and labels will change with it
+      function handleKeyUp(event) {
+        var bindingName = event.target.getAttribute('data-bind');
+        broadcaseToBindings(bindingName, event.target.value);
+      }
+
+      function broadcaseToBindings(bindingName, value) {
+        // Broadcast the new values
+        window[bindingName] = value;
+        var boundElements = document.querySelectorAll('*:not(input)[data-bind='+bindingName+']');
+        
+        for(var j = 0; j < boundElements.length; j++) {
+          var innerEl = boundElements[j];
+          innerEl.innerHTML = window[bindingName];
+        }
+      }
+
+      window.onload = function() {
+        // Challenge #1
+        // start with the code from 03.html
+        // whenever an input is changed, also change any other field bound to the same variable
+        var boundInputs = document.querySelectorAll('input[data-bind]');
+        for(var i = 0; i < boundInputs.length; i++) {
+          boundInputs[i].addEventListener('keyup', handleKeyUp);
+        }
+
+        // Challenge #1
+        // start with the code from 04.html
+        // using setInterval, make it so that if you change window.pizzaSize in Chrome dev tools
+        // the pizzaSize inputs and labels will change with it
+        setInterval(function() {
+          // check input values:
+          var boundInputs = document.querySelectorAll('input[data-bind]');
+          for(var i = 0; i < boundInputs.length; i++) {
+            var currentEl = boundInputs[i];
+            var bindingName = currentEl.getAttribute('data-bind');
+
+            // If the values aren't alligned, broadcast the window value
+            if(window[bindingName] !== currentEl.value)
+              currentEl.value = window[bindingName];
+              broadcaseToBindings(bindingName, window[bindingName]);
+          }
+        }, 1000);
+      }
     </script>
   </head>
   <body>
